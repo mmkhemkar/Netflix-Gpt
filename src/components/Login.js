@@ -9,6 +9,7 @@ import {
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,10 +39,19 @@ const Login = () => {
           updateProfile(user, {
             displayName: name.current.value,
             photoURL:
-              "https://occ-0-6247-2164.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABdpkabKqQAxyWzo6QW_ZnPz1IZLqlmNfK-t4L1VIeV1DY00JhLo_LMVFp936keDxj-V5UELAVJrU--iUUY2MaDxQSSO-0qw.png?r=e6e",
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq6bjkSjDA4g5xvpAs1i0i3p118i1Rs3D5jXXGkaMGYob2w6bDLEk_VXa80r7fHHsMNbgL&s",
           })
             .then(() => {
               // Profile updated!
+                  const { uid, email, displayName, photoURL } = auth.currentUser;
+                      dispatch(
+                        addUser({
+                          uid: uid,
+                          email: email,
+                          displayName: displayName,
+                          photoURL: photoURL,
+                        })
+                      );
               console.log("user", user);
               navigate("/browse");
             })
